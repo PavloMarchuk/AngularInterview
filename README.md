@@ -1,13 +1,14 @@
-# AngularInterview
-Angular Interview questions
+# Angular Interview questions
 
 
-##### Angular Привязки
+
+#### Angular Привязки
 Важно понимать что в Angular привязки к не к свойствам самого HTML, а к свойствам Shadow DOM, элементы котророго имеют дополнительные свойства (ngIf, ngSwitch...)
 В Angular есть четыре формы привязки данных:
 <details>
-<summary><b>[]</b> &nbsp;&mdash; Привязка <b>свойства</b> элемента HTML к <b>свойству</b> Component <b>(одностороння)</b></summary>
-<div>
+<summary><b>[]</b> &nbsp;&mdash; Привязка <b>свойства</b> элемента HTML к <b>свойству</b> Component <b>(одностороння)</b>
+</summary>
+ 
  Только из скрипта в разметку
 
 ```html
@@ -57,12 +58,17 @@ increase($event) : void {
     <b>[()]</b> &nbsp;&mdash; <b>Двусторонняя </b> привязка <b>свойства</b> элемента HTML к <b>свойству</b> Component
 </summary>
 <div>
-Совмещает в себе обе предьідущих, работая в обе стороньі.<br>
-Применяют для <b>инпутов</b>. Реагируют на ивент изминения их значения.<br>
+Совмещает в себе обе предыдущих, работая в обе стороны.<br>
+[(ngModel)]= в <b>инпутах</b> реагирует на ивент изминения их значения.<br>
 Скобки <b>[()]</b> напоминают банан в ящике, так легче запомнить синтаксис (нельзя засунуть ящик в банан).
 
 ```html
+
 <input [(ngModel)]="name" placeholder="name">
+
+<dx-load-indicator [(visible)]="loading" class="loading"></dx-load-indicator>
+
+<dx-popup #popup title="Create Project" [(visible)]="popupVisible">Hi!</dx-popup>
 ```  
 
 <br>
@@ -94,6 +100,100 @@ ex: {{name}} , {{'name'}} также валидно.  <br>
 
 <br>
 </details>
+
+#### Angular Директивы 
+##### Структурные директивы ngIf, ngFor, ngSwitch
+
+
+<details>
+<summary>
+    <b>*ngIf</b> &nbsp;&mdash; позволяет удалить или, наоборот, отобразить элемент при определенном условии
+</summary>
+
+```html
+<p *ngIf="condition">Привет мир</p>
+<p *ngIf="!condition">Пока мир</p>
+<button (click)="toggle()">Toggle</button>
+``` 
+
+<br>
+</details>
+
+<details>
+<summary>
+    <b>ng-template</b> &nbsp;&mdash; позволяет задавать альтернативные выражения
+</summary>
+
+ Начиная с версии Angular 4.0 директива ngIf обогатилась новыми возможностями. В частности, мы можем задавать альтернативные выражения с помощью директивы ng-template. Так, предыдущий пример будет аналогичен следующему:
+
+```html
+<p *ngIf="condition;else unset"> Привет мир </p>
+<ng-template #unset><p>Пока мир</p></ng-template>
+<button (click)="toggle()">Toggle</button>
+``` 
+
+Либо можно определить более изощренную логику:
+
+```html
+<div *ngIf="condition; then thenBlock else elseBlock"></div>
+<ng-template #thenBlock>Then template</ng-template>
+<ng-template #elseBlock>Else template</ng-template>
+<button (click)="toggle()">Toggle</button>
+```
+
+<br>
+</details>
+
+
+<details>
+<summary>
+    <b>*ngFor</b> &nbsp;&mdash; перебрать в разметке элементы массива
+</summary>
+
+```html
+<ul>
+    <li *ngFor="let item of items; let i = index">{{i+1}}.{{item}}</li>
+</ul>
+``` 
+
+```javascript
+items =["Apple iPhone 7", "Huawei Mate 9", "Samsung Galaxy S7", "Motorola Moto Z"];
+``` 
+
+<br>
+</details>
+
+<details>
+<summary>
+   <b>Символ звездочки &nbsp;&mdash; '*'</b> &nbsp;&mdash; синтаксический сахар
+</summary>
+Можно заметить, что при использовании директив ngFor и ngIf перед ними ставится символ звездочка. По факту это не более чем синтаксический сахар, который упрощает применение директивы.
+
+```html
+<p *ngIf="condition">Привет мир</p>
+<ul>
+    <li *ngFor="let item of items">{{item}}</li>
+</ul>
+``` 
+по факту будет представлять следующий код:
+
+
+```html
+<template [ngIf]="condition">
+    <p>Привет мир</p>
+</template>
+
+<ul>
+    <template ngFor let-item [ngForOf]="items">
+        <li>{{item}}</li>
+    </template>
+</ul>
+``` 
+
+
+<br>
+</details>
+
 
 ## Вопросы на собеседовании по Angular  [![Angular-RU](https://img.shields.io/badge/Telegram_chat:-Angular_RU-216bc1.svg?style=flat)](https://t.me/angular_ru)
 
