@@ -221,12 +221,12 @@ items =["Apple iPhone 7", "Huawei Mate 9", "Samsung Galaxy S7", "Motorola Moto Z
   ќбъект FormControl отслеживает значение модели, а также отвечает за валидацию этого значени€ и взаимодействие с пользователем.
 - [angular.io/api/forms/FormControl](https://angular.io/api/forms/FormControl)
 
-≈сли нам надо просто вывести значение модели в поле ввода, то можно ограничитьс€ и однонаправленной прив€зкой **[...]** :
+≈сли нам надо просто вывести значение модели в поле ввода, <br>то можно ограничитьс€ и однонаправленной прив€зкой **[...]** 
 
 ```html
 <input name="title" [ngModel]="title" />
 ```
-≈сли нам надо отслеживать изменение введенных данных, то мы можем использовать двунаправленную прив€зку **[(...)]** :
+≈сли нам надо отслеживать изменение введенных данных, <br>то мы можем использовать двунаправленную прив€зку **[(...)]** 
 
 ```html
 <input name="title" [(ngModel)]="title" />
@@ -354,6 +354,48 @@ items =["Apple iPhone 7", "Huawei Mate 9", "Samsung Galaxy S7", "Motorola Moto Z
  
 <br>
 </details>
+
+
+
+<details>
+    <summary>
+        ƒиректива хочет помен€ть css клас своего хоста
+    </summary>
+
+
+ <b>*ngFor</b> используем  
+
+
+```javascript
+@Component({
+   selector: 'body',
+   template: 'app-element',
+   // prefer decorators (see below)
+   // host:     {'[class.someClass]':'someField'}
+})
+export class App implements OnInit {
+  constructor(private cdRef:ChangeDetectorRef) {}
+
+  someField: boolean = false;
+  // alternatively also the host parameter in the @Component()` decorator can be used
+  @HostBinding('class.someClass') someField: boolean = false;
+
+  ngOnInit() {
+    this.someField = true; // set class `someClass` on `<body>`
+    //this.cdRef.detectChanges(); 
+  }
+}
+``` 
+
+```css
+:host(.someClass) {
+ background-color: red;
+}
+``` 
+<br>
+</details>
+
+
 
 
 
@@ -498,6 +540,11 @@ items =["Apple iPhone 7", "Huawei Mate 9", "Samsung Galaxy S7", "Motorola Moto Z
 <summary>¬ чем разница между структурной и атрибутной директивой, назовите встроенные директивы?</summary>
 <div>
   in progress..
+—труктурные директивы ngIf, ngFor, ngSwitch
+измен€ют структуру DOM с помощью добавлени€, изменени€ или удалени€ элементов hmtl. 
+<br/>
+јтрибутивные директивы ngModel, ngClass, ngStyle 
+измен€ют поведение уже существующего элемента
 </div>
 </details>
 
