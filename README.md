@@ -98,6 +98,7 @@ ex: {{name}} , {{'name'}} также валидно.  <br>
 <br>
 </details>
 
+
 ### Angular Директивы Структурные, Атрибутивные, Компоненты
 #### Структурные директивы ngIf, ngFor, ngSwitch
 изменяют структуру DOM с помощью добавления, изменения или удаления элементов hmtl.
@@ -193,13 +194,15 @@ items =["Apple iPhone 7", "Huawei Mate 9", "Samsung Galaxy S7", "Motorola Moto Z
 
  <details>
 <summary>
-    <b>*ngSwitch</b> &nbsp;&mdash; позволяет удалить или, наоборот, отобразить элемент при определенном условии
+    <b>*ngSwitch</b> &nbsp;&mdash;  встроить в шаблон конструкцию switch..case и в зависимости от ее результата выполнения выводить тот или иной блок.
 </summary>
 
 ```html
-<p *ngIf="condition">Привет мир</p>
-<p *ngIf="!condition">Пока мир</p>
-<button (click)="toggle()">Toggle</button>
+<div [ngSwitch]="count">
+            <ng-template *ngSwitchCase="1">{{count * 10}}</ng-template>
+            <ng-template *ngSwitchCase="2">{{count * 100}}</ng-template>
+            <ng-template ngSwitchDefault>{{count * 1000}}</ng-template>
+</div>
 ``` 
 
 <br>
@@ -234,9 +237,10 @@ items =["Apple iPhone 7", "Huawei Mate 9", "Samsung Galaxy S7", "Motorola Moto Z
 
 <details>
     <summary>
-        <b>ngClass</b> &nbsp;&mdash; добавить в DOM некое «состояние» через классы.
+        <b>ngClass</b> &nbsp;&mdash; динамически добавляет елементу разметки клас "по условию" 
     </summary>
 
+Способ добавить в DOM некое «состояние» через классы. <br>
 Базовый синтаксис ngClass:
 
 ```html
@@ -250,7 +254,7 @@ items =["Apple iPhone 7", "Huawei Mate 9", "Samsung Galaxy S7", "Motorola Moto Z
 Мы можем передавать строки, массивы строк, Set и объектные литералы. Нас интересуют только объектные литералы. Строки и массивы строк позволяют устанавливать классы, но не удалять их, так как они добавляются без условия:
 
 ```html
-<p [ngClass]="{segoePrintFont:true}">Angular</p>
+<p [ngClass]="{segoePrintFont:condition}">Angular</p>
 ``` 
 ```html
 <div [ngClass]="{
@@ -281,6 +285,79 @@ items =["Apple iPhone 7", "Huawei Mate 9", "Samsung Galaxy S7", "Motorola Moto Z
 
 <br>
 </details>
+<hr>
+
+
+
+<details>
+    <summary>
+        Eсли мы хотим показать и не показать разные елементы?
+    </summary>
+
+<b>ngIf</b> используем  
+
+```html
+<p *ngIf="condition">Привет мир</p>
+<p *ngIf="!condition">Пока мир</p>
+<button (click)="toggle()">Toggle</button>
+```
+ 
+<br>
+</details>
+
+
+<details>
+    <summary>
+        Когда список вещей мы хотим показать, что мы используем?
+    </summary>
+
+
+ <b>*ngFor</b> используем  
+
+```html
+<ul>
+    <li *ngFor="let item of items; let i = index">{{i+1}}.{{item}}</li>
+</ul>
+``` 
+```javascript
+items =["Apple iPhone 7", "Huawei Mate 9", "Samsung Galaxy S7", "Motorola Moto Z"];
+``` 
+<br>
+</details>
+
+<details>
+    <summary>
+         Если нужно поцепить *ngIf или *ngFor, но не добавляя в разметку новий div?
+    </summary>
+
+ <b>ng-content</b> используем 
+
+```html
+<ng-container *ngFor="let item of items; let i = index; trackBy: trackByFn">
+  <li>...</li>
+</ng-container>
+``` 
+Можно использовать <b>template</b>, однако он требует неприятного синтаксиса.
+ <br/> (см.  " <b>Символ звездочки</b> <b>'*'</b> " )
+<br/> Например
+```html
+<li *ngFor="let item of items; let i = index; trackBy: trackByFn">...</li>
+``` 
+
+Станет
+
+```html
+<template ngFor let-item [ngForOf]="items" let-i="index" [ngForTrackBy]="trackByFn">
+  <li>...</li>
+</template>
+```
+ 
+<br>
+</details>
+
+
+
+<hr/>
 
 ## Вопросы на собеседовании по Angular  [![Angular-RU](https://img.shields.io/badge/Telegram_chat:-Angular_RU-216bc1.svg?style=flat)](https://t.me/angular_ru)
 
