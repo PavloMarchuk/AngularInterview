@@ -1,6 +1,100 @@
 # AngularInterview
 Angular Interview questions
 
+
+##### Angular Привязки
+Важно понимать что в Angular привязки к не к свойствам самого HTML, а к свойствам Shadow DOM, элементы котророго имеют дополнительные свойства (ngIf, ngSwitch...)
+В Angular есть четыре формы привязки данных:
+<details>
+<summary><b>[]</b> &nbsp;&mdash; Привязка <b>свойства</b> элемента HTML к <b>свойству</b> Component <b>(одностороння)</b></summary>
+<div>
+ Только из скрипта в разметку
+
+```html
+<input type="text" [value]="name" />
+``` 
+
+```html
+<template [ngIf]="condition">Привет мир</template>
+``` 
+```html
+ <div [ngSwitch]="count">
+            <ng-template *ngSwitchCase="1">{{count * 10}}</ng-template>
+            <ng-template *ngSwitchCase="2">{{count * 100}}</ng-template>
+            <ng-template ngSwitchDefault>{{count * 1000}}</ng-template>
+        </div>
+```
+
+<br>
+</details>
+
+<details>
+<summary><b>()</b> &nbsp;&mdash; Привязка <b>события</b> элемента HTML к <b>методу</b> Component <b>(одностороння)</b></summary>
+<div>
+Только из разметки в скрипт.<br> 
+Скобки "()" напоминают вызов функции, в Angular они тоже для функций, так легче запомнить.
+
+```html
+<button (click)="addItem(text, price)">Добавить</button>
+```  
+передавать информацию о событии можно через объект $event 
+<br>
+```html
+<button (click)="increase($event)">Click</button>
+``` 
+
+```javascript
+increase($event) : void { 
+        this.count++;
+        console.log($event);
+        }
+```
+<br>
+</details>
+
+<details>
+<summary>
+    <b>[()]</b> &nbsp;&mdash; <b>Двусторонняя </b> привязка <b>свойства</b> элемента HTML к <b>свойству</b> Component
+</summary>
+<div>
+Совмещает в себе обе предьідущих, работая в обе стороньі.<br>
+Применяют для <b>инпутов</b>. Реагируют на ивент изминения их значения.<br>
+Скобки <b>[()]</b> напоминают банан в ящике, так легче запомнить синтаксис (нельзя засунуть ящик в банан).
+
+```html
+<input [(ngModel)]="name" placeholder="name">
+```  
+
+<br>
+</details>
+
+<details>
+<summary>
+    <b>{{}}</b> &nbsp;&mdash; <b>Интерполяция Строк</b>, привязка <b>строки</b> из Component в разметку HTML <b>(двустороння)</b>
+</summary>
+<div>
+
+```html
+<h3>
+  {{title}}
+  <img src="{{heroImageUrl}}" style="height:30px">
+</h3>
+<h1>Добро пожаловать {{name}}!</h1>
+```  
+
+ Запомните, внутри двойных фигурных скобок мы можем поместить любую строку, которая будет сопоставляться с соответствующим элементом typescript. <br>
+ex: {{name}} , {{'name'}} также валидно.  <br>
+Частіше текст між фігурними дужками &nbsp;&mdash; це ім'я властивості Компоненту. <br>
+Загалом, текст між фігурними дужками &nbsp;&mdash; це вираз, який Angular спочатку оцінює, а потім перетворює на рядок: 
+
+```html
+<p>The sum of 1 + 1 is not {{1 + 1 + getVal()}}</p>
+```  
+
+
+<br>
+</details>
+
 ## Вопросы на собеседовании по Angular  [![Angular-RU](https://img.shields.io/badge/Telegram_chat:-Angular_RU-216bc1.svg?style=flat)](https://t.me/angular_ru)
 
 Вопросы подготовлены непосредственно для того, чтобы определить уровень разработчика, насколько глубоко, поверхностно или сносно он знает Angular. Вопросы для собеседования на знание JavaScript или Web-стека хорошо освещены в других местах, поэтому ниже будет добавлен список ресурсов по этой теме:
@@ -106,6 +200,9 @@ Angular Interview questions
 </div>
 </details>
 
+<br> 
+
+ 
 
 ##### Angular Template синтаксис
 
@@ -118,6 +215,7 @@ Angular Interview questions
   ```html
     <a href="img/{{username}}.jpg">Hello {{username}}!</a>
   ```
+
   
 <br>
 </div>
