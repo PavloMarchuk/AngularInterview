@@ -1,9 +1,6 @@
 # Angular Interview questions
-
-
-
-#### Angular Привязки
-Важно понимать что в Angular привязки к не к свойствам самого HTML, а к свойствам Shadow DOM, элементы котророго имеют дополнительные свойства (ngIf, ngSwitch...)
+###  Angular Привязки
+Важно понимать что в Angular привязки к не к свойствам самого HTML, а к свойствам Shadow DOM, элементы котророго имеют свои дополнительные свойства (ngIf, ngSwitch...)
 В Angular есть четыре формы привязки данных:
 <details>
 <summary><b>[]</b> &nbsp;&mdash; Привязка <b>свойства</b> элемента HTML к <b>свойству</b> Component <b>(одностороння)</b>
@@ -76,16 +73,16 @@ increase($event) : void {
 
 <details>
 <summary>
-    <b>{{}}</b> &nbsp;&mdash; <b>Интерполяция Строк</b>, привязка <b>строки</b> из Component в разметку HTML <b>(двустороння)</b>
+    <b>{{}}</b> &nbsp;&mdash; <b>Интерполяция Строк</b>,  для присвоение <b>строк</b> из свойств Component <b>текстовым нодам</b> или  <b>аттрибутам</b>  HTML <b>(двустороння)</b>
 </summary>
 <div>
 
 ```html
 <h3>
   {{title}}
-  <img src="{{heroImageUrl}}" style="height:30px">
-</h3>
-<h1>Добро пожаловать {{name}}!</h1>
+  <img src="{{titleImageUrl}}" style="height:30px">
+</h3> 
+<a href="img/{{username}}.jpg">Hello {{username}}!</a>
 ```  
 
  Запомните, внутри двойных фигурных скобок мы можем поместить любую строку, которая будет сопоставляться с соответствующим элементом typescript. <br>
@@ -101,9 +98,9 @@ ex: {{name}} , {{'name'}} также валидно.  <br>
 <br>
 </details>
 
-#### Angular Директивы 
-##### Структурные директивы ngIf, ngFor, ngSwitch
-
+### Angular Директивы Структурные, Атрибутивные, Компоненты
+#### Структурные директивы ngIf, ngFor, ngSwitch
+изменяют структуру DOM с помощью добавления, изменения или удаления элементов hmtl.
 
 <details>
 <summary>
@@ -165,7 +162,7 @@ items =["Apple iPhone 7", "Huawei Mate 9", "Samsung Galaxy S7", "Motorola Moto Z
 
 <details>
 <summary>
-   <b>Символ звездочки &nbsp;&mdash; '*'</b> &nbsp;&mdash; синтаксический сахар
+   <b>Символ звездочки</b> <b>'*'</b> &nbsp;&mdash; синтаксический сахар
 </summary>
 Можно заметить, что при использовании директив ngFor и ngIf перед ними ставится символ звездочка. По факту это не более чем синтаксический сахар, который упрощает применение директивы.
 
@@ -194,6 +191,96 @@ items =["Apple iPhone 7", "Huawei Mate 9", "Samsung Galaxy S7", "Motorola Moto Z
 <br>
 </details>
 
+ <details>
+<summary>
+    <b>*ngSwitch</b> &nbsp;&mdash; позволяет удалить или, наоборот, отобразить элемент при определенном условии
+</summary>
+
+```html
+<p *ngIf="condition">Привет мир</p>
+<p *ngIf="!condition">Пока мир</p>
+<button (click)="toggle()">Toggle</button>
+``` 
+
+<br>
+</details>
+
+#### Атрибутивные директивы ngModel, ngClass, ngStyle 
+изменяют поведение уже существующего элемента
+
+ 
+<details>
+    <summary>
+        <b>ngModel</b> &nbsp;&mdash; створює двосторонню прив'язки даних для читання та запису моделі
+ </summary>
+
+ Создает екземпляр класа FormControl с помощью переданной модели и привязывает эту модель к созданному элементу формы. <br>
+  Объект FormControl отслеживает значение модели, а также отвечает за валидацию этого значения и взаимодействие с пользователем.
+- [angular.io/api/forms/FormControl](https://angular.io/api/forms/FormControl)
+
+Если нам надо просто вывести значение модели в поле ввода, то можно ограничиться и однонаправленной привязкой **[...]** :
+
+```html
+<input name="title" [ngModel]="title" />
+```
+Если нам надо отслеживать изменение введенных данных, то мы можем использовать двунаправленную привязку **[(...)]** :
+
+```html
+<input name="title" [(ngModel)]="title" />
+``` 
+
+<br>
+</details>
+
+<details>
+    <summary>
+        <b>ngClass</b> &nbsp;&mdash; добавить в DOM некое «состояние» через классы.
+    </summary>
+
+Базовый синтаксис ngClass:
+
+```html
+<some-element [ngClass]="'first second'">...</some-element>
+<some-element [ngClass]="['first', 'second']">...</some-element>
+<some-element [ngClass]="{'first': true, 'second': true, 'third': false}">...</some-element>
+<some-element [ngClass]="stringExp|arrayExp|objExp">...</some-element>
+<some-element [ngClass]="{'class1 class2 class3' : true}">...</some-element>
+``` 
+
+Мы можем передавать строки, массивы строк, Set и объектные литералы. Нас интересуют только объектные литералы. Строки и массивы строк позволяют устанавливать классы, но не удалять их, так как они добавляются без условия:
+
+```html
+<p [ngClass]="{segoePrintFont:true}">Angular</p>
+``` 
+```html
+<div [ngClass]="{
+  'is-active': condition,
+  'is-inactive': !condition,
+  'is-focused': condition && anotherCondition,
+}">
+</div>
+``` 
+<br>
+</details>
+
+<details>
+    <summary>
+        <b>ngStyle</b> &nbsp;&mdash; задать набор стилей к элементу
+    </summary>
+
+Базовый синтаксис ngStyle:
+
+```html
+<some [ngStyle]="{'font-style': styleExp}">...</some>
+<some [ngStyle]="{'max-width.px': widthExp}">...</some>
+<some [ngStyle]="objExp">...</some>
+
+<div [style.display]="visibility==true?'block':'none'">
+<p [style.fontSize]="'14px'" [style.fontFamily]="'Verdana'">Angular</p>
+```
+
+<br>
+</details>
 
 ## Вопросы на собеседовании по Angular  [![Angular-RU](https://img.shields.io/badge/Telegram_chat:-Angular_RU-216bc1.svg?style=flat)](https://t.me/angular_ru)
 
